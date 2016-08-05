@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.myapp</groupId>
+    <artifactId>myapp</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>app-backend-module</module>
+        <module>app-web-service-module</module>
+        <module>app-web-service-module-2</module>
+        <module>app-log4j-config</module>
+        <module>app-bundle</module>
+    </modules>
+
+
+    <properties>
+        <!-- Maven specific settings -->
+        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+        <project.build.resourceEncoding>>${encoding}</project.build.resourceEncoding>
+        <maven.compile.encoding>>${encoding}</maven.compile.encoding>
+
+        <java.source>1.8</java.source>
+        <java.target>1.8</java.target>
+        <!-- other 3rd party library settings -->
+        <javaee.api.version>7.0</javaee.api.version>
+        <openejb.version>7.0.1</openejb.version>
+        <tomee.version>7.0.1</tomee.version>
+        <cxf.version>3.1.6</cxf.version>
+
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomee</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${javaee.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.5.1</version>
+                    <configuration>
+                        <source>${java.source}</source>
+                        <target>${java.target}</target>
+                        <encoding>${encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.10.3</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <javadocExecutable>${java.home}/../bin/javadoc</javadocExecutable>
+                        <links>
+                            <link>http://docs.oracle.com/javase/8/docs/api/</link>
+                        </links>
+                        <encoding>utf-8</encoding>
+                        <show>public</show>
+                        <!-- Speeds up the build of the javadocs -->
+                        <quiet>true</quiet>
+                        <use>false</use>
+                        <!--
+                        Use this in JDK 8 environment to skip hard java doc syntax check.
+                          <additionalparam>-Xdoclint:none</additionalparam> -->
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>
